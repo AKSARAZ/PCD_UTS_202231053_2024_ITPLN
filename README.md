@@ -302,25 +302,27 @@ axs[1, 1].set_title('RED-GREEN-BLUE')
 plt.tight_layout()
 plt.show()
 ```
+* penjelasan
+
 Program tersebut melakukan pemrosesan pada citra untuk menampilkan empat versi citra dengan ambang batas yang berbeda. Berikut adalah penjelasan detailnya:
 
-1. Pertama, citra digunakan untuk membuat citra skala abu-abu (`gray`) menggunakan fungsi `cv2.cvtColor` dengan parameter `cv2.COLOR_RGB2GRAY`.
+* Pertama, citra digunakan untuk membuat citra skala grayscale menggunakan fungsi cv2.cvtColor dengan parameter cv2.COLOR_RGB2GRAY. Selanjutnya, program membuat sebuah subplot dengan 2 baris dan 2 kolom menggunakan plt.subplots(2, 2, figsize=(10, 10)).
 
-2. Kemudian, program membuat sebuah subplot dengan 2 baris dan 2 kolom menggunakan `plt.subplots(2, 2, figsize=(10, 10))`.
+* Ambang batas yang digunakan dalam proses binerisasi (mengubah citra menjadi citra biner) ditentukan dalam empat langkah berikut:
+   - Langkah pertama (binary1)
+     Ambang batas 0 digunakan untuk membuat citra biner, yang artinya semua piksel dengan intensitas lebih tinggi dari 0 akan menjadi putih, sedangkan yang lainnya hitam. Ini menghasilkan citra yang sama dengan citra skala abu-abu.
+   - Langkah kedua (binary2)
+     Ambang batas 70 digunakan untuk menghasilkan citra biner di mana piksel dengan intensitas lebih tinggi dari 70 akan menjadi putih, sedangkan yang lainnya hitam. Ini bertujuan untuk menyoroti bagian citra yang cenderung berwarna biru.
+   - Langkah ketiga (binary3)
+     Ambang batas 100 digunakan untuk menciptakan citra biner di mana piksel dengan intensitas lebih tinggi dari 100 akan menjadi putih, sedangkan yang lainnya hitam. Ini bertujuan untuk menyoroti bagian citra yang cenderung berwarna merah dan biru.
+   - Langkah keempat (binary4)
+     Ambang batas 150 digunakan untuk menciptakan citra biner di mana piksel dengan intensitas lebih tinggi dari 150 akan menjadi putih, sedangkan yang lainnya hitam. Ini bertujuan untuk menyoroti bagian citra yang cenderung memiliki semua warna (merah, hijau, dan biru).
 
-3. Ambang batas yang digunakan dalam proses binerisasi (mengubah citra menjadi citra biner) ditentukan dalam empat langkah berikut:
-   - Langkah pertama (`binary1`): Ambang batas 0 digunakan untuk membuat citra biner, yang artinya semua piksel dengan intensitas lebih tinggi dari 0 akan menjadi putih, sedangkan yang lainnya hitam. Ini menghasilkan citra yang sama dengan citra skala abu-abu.
-   - Langkah kedua (`binary2`): Ambang batas 70 digunakan untuk menghasilkan citra biner di mana piksel dengan intensitas lebih tinggi dari 70 akan menjadi putih, sedangkan yang lainnya hitam. Ini bertujuan untuk menyoroti bagian citra yang cenderung berwarna biru.
-   - Langkah ketiga (`binary3`): Ambang batas 100 digunakan untuk menciptakan citra biner di mana piksel dengan intensitas lebih tinggi dari 100 akan menjadi putih, sedangkan yang lainnya hitam. Ini bertujuan untuk menyoroti bagian citra yang cenderung berwarna merah dan biru.
-   - Langkah keempat (`binary4`): Ambang batas 150 digunakan untuk menciptakan citra biner di mana piksel dengan intensitas lebih tinggi dari 150 akan menjadi putih, sedangkan yang lainnya hitam. Ini bertujuan untuk menyoroti bagian citra yang cenderung memiliki semua warna (merah, hijau, dan biru).
-
-4. Setiap citra biner kemudian ditampilkan dalam subplot yang sesuai dengan judul yang sesuai.
-
-5. Terakhir, `plt.tight_layout()` digunakan untuk memastikan layout subplot terlihat rapi, dan `plt.show()` untuk menampilkan gambar-gambar tersebut.
+* Setiap citra biner kemudian ditampilkan dalam subplot yang sesuai dengan judul yang sesuai. Selanjutnya, plt.tight_layout() digunakan untuk memastikan layout subplot terlihat rapi, dan plt.show() untuk menampilkan gambar-gambar tersebut.
 
 alasan mengapa menggunakan ambang 70 untuk blue, 120 untuk red-blue, dan 150 untuk red-green-blue karena setelah mencari dan mengurutkan nilai ambang batas pada program sebelumnya angka ini berada diantara nilai minimum dan maksimum ambang batas dan setelah dilakukan berbagai percobaan angka tersebut menghasilkan tampilan kategori warna yang paling mendekati, namun dengan program tersebut hasil terasa kurang memuaskan, oleh karena itu disini digunakan program lain untuk menampilkan kategori warna berdasarkan nilai ambang batasnya
 
-11. menampilkan kategori warna pada citra dengan nilai ambang batas metode 2
+* menampilkan kategori warna pada citra dengan nilai ambang batas metode 2
 
 ```python
 hsv_image = cv2.cvtColor(citra_gabungan, cv2.COLOR_RGB2HSV)
@@ -391,22 +393,20 @@ plt.show()
 
 * penjelasan
 
-1. Citra awal dikonversi ke ruang warna HSV menggunakan fungsi `cv2.cvtColor`.
+* Citra awal dikonversi ke ruang warna HSV menggunakan fungsi cv2.cvtColor.
 
-2. Rentang warna untuk setiap warna (biru, hijau, merah) ditentukan. Setiap warna didefinisikan oleh batas bawah (`lower`) dan batas atas (`upper`) dalam ruang warna HSV. Misalnya, untuk warna biru, rentang warna ditentukan dari nilai Hue (H) sekitar 100-140 dan untuk warna merah Sebenarnya, kita hanya memerlukan dua masker untuk warna merah. Namun, dalam ruang warna HSV, nilai hue (H) yang menunjukkan warna merah memiliki rentang dari 0-10 dan 160-180. Karena nilai hue ini dapat melintasi batas 0-180, kita perlu membagi rentang menjadi dua bagian dan mendeteksi warna merah dalam dua rentang tersebut. Oleh karena itu, kita menggunakan dua masker untuk mendeteksi warna merah: satu untuk rentang 0-10 dan satu lagi untuk rentang 160-180. Setelah itu, kedua masker tersebut digabungkan menggunakan operasi np.maximum() untuk mendapatkan masker akhir yang menunjukkan wilayah yang berwarna merah.
+* Rentang warna untuk setiap warna (biru, hijau, merah) ditentukan. Setiap warna didefinisikan oleh batas bawah (lower) dan batas atas (upper) dalam ruang warna HSV. Misalnya, untuk warna biru, rentang warna ditentukan dari nilai Hue (H) sekitar 100-140 dan untuk warna merah Sebenarnya, kita hanya memerlukan dua masker untuk warna merah. Namun, dalam ruang warna HSV, nilai hue (H) yang menunjukkan warna merah memiliki rentang dari 0-10 dan 160-180. Karena nilai hue ini dapat melintasi batas 0-180, kita perlu membagi rentang menjadi dua bagian dan mendeteksi warna merah dalam dua rentang tersebut. Oleh karena itu, kita menggunakan dua masker untuk mendeteksi warna merah: satu untuk rentang 0-10 dan satu lagi untuk rentang 160-180. Setelah itu, kedua masker tersebut digabungkan menggunakan operasi np.maximum() untuk mendapatkan masker akhir yang menunjukkan wilayah yang berwarna merah.
 
-3. Deteksi warna dilakukan untuk setiap warna (biru, hijau, merah) menggunakan fungsi `cv2.inRange`. Fungsi ini menghasilkan citra biner di mana piksel yang berada dalam rentang warna akan menjadi putih, sedangkan yang lainnya hitam. Untuk warna merah, karena rentang warnanya melintasi nilai H yang meliputi 0 dan 180, dua rentang (merah ke oranye dan merah muda ke magenta) diambil terpisah dan digabungkan dengan menggunakan operasi `np.maximum`.
+* Deteksi warna dilakukan untuk setiap warna (biru, hijau, merah) menggunakan fungsi cv2.inRange. Fungsi ini menghasilkan citra biner di mana piksel yang berada dalam rentang warna akan menjadi putih, sedangkan yang lainnya hitam. Untuk warna merah, karena rentang warnanya melintasi nilai H yang meliputi 0 dan 180, dua rentang (merah ke oranye dan merah muda ke magenta) diambil terpisah dan digabungkan dengan menggunakan operasi np.maximum.
 
-4. Subplot dibuat untuk menampilkan empat versi citra dengan deteksi warna yang berbeda:
-   - Subplot pertama menampilkan citra awal dalam skala abu-abu.
-   - Subplot kedua menampilkan citra biner yang menyoroti piksel yang sesuai dengan warna biru.
-   - Subplot ketiga menampilkan citra biner yang menyoroti piksel yang sesuai dengan warna merah dan biru.
-   - Subplot keempat menampilkan citra biner yang menyoroti piksel yang sesuai dengan warna merah, hijau, dan biru.
+* Subplot dibuat untuk menampilkan empat versi citra dengan deteksi warna yang berbeda:
 
-5. Setiap subplot diberi judul yang sesuai.
+Subplot pertama menampilkan citra awal dalam skala abu-abu. Subplot kedua menampilkan citra biner yang menyoroti piksel yang sesuai dengan warna biru. Subplot ketiga menampilkan citra biner yang menyoroti piksel yang sesuai dengan warna merah dan biru. Subplot keempat menampilkan citra biner yang menyoroti piksel yang sesuai dengan warna merah, hijau, dan biru.
 
-6. Terakhir, menggunakan `plt.tight_layout()` untuk memastikan layout subplot terlihat rapi, dan `plt.show()` untuk menampilkan gambar-gambar tersebut.
-7. Untuk alasan mengapa menggunakan angka tersebut sebagai ambang batas karena angkka tersebut berada diantara batas minimum dan maksimum setiap warna dan menghasilkan tampilan kategori warna yang paling mendekati sempurna
+* Setiap subplot diberi judul yang sesuai.
+
+* Terakhir, menggunakan plt.tight_layout() untuk memastikan layout subplot terlihat rapi, dan plt.show() untuk menampilkan gambar-gambar tersebut.
+* Untuk alasan mengapa menggunakan angka tersebut sebagai ambang batas karena angkka tersebut berada diantara batas minimum dan maksimum setiap warna dan menghasilkan tampilan kategori warna yang paling mendekati sempurna
 
 # Teori Pendukung
 ## Library yang digunakan
@@ -436,6 +436,18 @@ Pengolahan Citra Digital juga digunakan dalam Pengolahan citra satelit dimana pe
 3.	Pengolahan Citra Keamanan
 
 Pengaplikasin pengolahan citra digital ini digunakan untuk menganalisis gambar dari sistem keamanan seperti kamera CCTV, sensor pengawasan, dan lainnya. Contohnya adalah Deteksi Wajah, yang dapat diidentifikasi melalui pengolahan citra. Ini memungkinkan pemantauan dan keamanan di tempat umum seperti bandara, stasiun kereta, atau pusat perbelanjaan, sehingga jika terdapar seorang DPO yang melarikan diri dan tertangkap kamera pengawas maka akan langsung terdeteksi karena adanya pengolahan citra dari potret dirinya sebelum ia melarikan diri.
+
+4. Histogram Citra
+
+Histogram citra adalah sebuah diagram yang menggambarkan frekuensi setiap nilai intensitas yang muncul di seluruh piksel citra. Nilai yang besar menandakan bahwa piksel-piksel yang mempunyai intensitas tersebut sangat banyak.
+
+5. Meningkatkan Kecerahan
+
+Operasi dasar yang sering dilakukan pada pengolahan citra adalah meningkatakan kecerahan atau brightness. Operasi ini dapat dilakukan dengan tujuan untuk membuat gambar menjadi lebih terang. Secara matematis, peningkatan kecerahan dilakukan dengan menambahkan suatu konstanta terhadap nilai seluruh piksel. Misalkan, f(y, x) menyatakan nilai piksel pada citra berskala keabuan pada koordinat (y, x).
+
+6. Meregangkan Kontras
+
+Kontras dalam suatu citra merupakan distribusi warna terang dan gelap. Sebuah citra berskala keabuan dikatakan mempunyai kontras rendah apabila distribusi warna cenderung pada jangkauan aras keabuan yang sempit. Sebaliknya, sebuah citra mempunyai kontras tinggi apabila jangkauan aras keabuan terdistribusi dengan lebih melebar. Kontras dapat diukur berdasarkan perbedaan antara nilai intensitas tertinggi dan nilai intensitas terendah yang menyusun piksel-piksel dalam citra. 
 
 Pada program project ini memiliki beberapa langkah dalam memproses citra. Pertama, citra dimuat dan dikonversi ke dalam format RGB untuk mempermudah analisis. Selanjutnya, dilakukan penyesuaian terhadap kontras dan kecerahan citra agar gambar lebih terang dan detailnya lebih terlihat. Setelah itu, dilakukan analisis histogram untuk memahami sebaran warna dalam gambar. Informasi ini penting dalam menentukan langkah-langkah selanjutnya. Kemudian, dilakukan deteksi warna untuk menemukan area dengan warna tertentu, seperti merah, hijau, dan biru. Ambang batas juga ditentukan berdasarkan histogram untuk setiap warna yang dideteksi. Ini membantu dalam memisahkan elemen berwarna dalam citra. Citra hasil proses dan histogramnya ditampilkan dalam subplot secara terpisah, memudahkan untuk melihat efek dari setiap langkah proses pengolahan citra. Selain itu, program ini memanfaatkan teknik-teknik dasar dalam pengolahan citra, seperti konversi warna, analisis histogram, dan deteksi warna, yang merupakan langkah awal dalam banyak aplikasi yang lebih kompleks dalam pengolahan citra, seperti pengenalan objek, deteksi wajah, dan lainnya.
 
