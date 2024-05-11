@@ -140,13 +140,17 @@ plt.title('RED')
 ```
 hasil deteksi warna merah dari citra yang telah disesuaikan ditampilkan dalam grayscale pada subplot kedua dengan pengindeksan [:,:,0] untuk menyeleksi warna merah dari citra. Selanjutnya memberi judul tampilan pada subplot 2 dengan judul RED
 
-```python
+
 langkah pada deteksi warna merah digunakan lagi untuk deteksi warna lainnya dangan pengindeksan [:,:,1] untuk warna hijau dan pengindeksan [:,:,2] untuk warna biru
-```
+
 ```python
 plt.show()
 ```
-menampilkan seluruh subplot yang sudah tulis sebelumnya.<br><br>
+menampilkan seluruh subplot yang sudah tulis sebelumnya.
+
+Pada output dari program diatas dapat dilihat pada warna yang kita seleksi maka akan memudar dan nampak tidak terlalu jelas sedangkan warna lain yang tidak terseleksi akan tetap ditampilkan dengan skala grayscale.
+
+
 8.	Menampilkan Histogram Pada Setiap Kategori Warna Citra<br>
 Setelah berhasil melakukan deteksi warna pada citra maka kita akan melihat histogram dari setiap deteksi warnanya menggunakan script berikut :
 ```python
@@ -241,7 +245,16 @@ memastikan tata letak subplot yang rapi.
 ```python
 plt.show()
 ```
-menampilkan semua subplot dalam satu jendela tampilan. Sehingga menampilkan histogram setiap gambar sebagai berikut.<br><br>
+menampilkan semua subplot dalam satu jendela tampilan. Sehingga menampilkan histogram setiap gambar sebagai berikut.
+
+Berdasarkan program diatas terdapat tiga histogram yang menunjukkan distribusi frekuensi warna pada gambar "DWITIAN TANGGUH EDINUGRAHA". Histogram tersebut berwarna merah, hijau, dan biru, sesuai dengan warna primer yang digunakan dalam gambar.
+
+Perbedaan utama antara ketiga histogram tersebut adalah distribusi frekuensi warna yang berbeda.
+
+- Histogram merah menunjukkan bahwa warna merah adalah warna yang paling dominan dalam gambar, dengan frekuensi tertinggi pada rentang nilai 1500-2000.
+- Histogram hijau menunjukkan bahwa warna hijau adalah warna yang paling dominan kedua dalam gambar, dengan frekuensi tertinggi pada rentang nilai 1000-1500.
+- Histogram biru menunjukkan bahwa warna biru adalah warna yang paling dominan ketiga dalam gambar, dengan frekuensi tertinggi pada rentang nilai 1500-2000.
+
 9. mencari dan mengurutkan nilai ambang batas
 ```python
 def find_threshold(hist):
@@ -380,7 +393,7 @@ plt.show()
 
 1. Citra awal dikonversi ke ruang warna HSV menggunakan fungsi `cv2.cvtColor`.
 
-2. Rentang warna untuk setiap warna (biru, hijau, merah) ditentukan. Setiap warna didefinisikan oleh batas bawah (`lower`) dan batas atas (`upper`) dalam ruang warna HSV. Misalnya, untuk warna biru, rentang warna ditentukan dari nilai Hue (H) sekitar 100-140.
+2. Rentang warna untuk setiap warna (biru, hijau, merah) ditentukan. Setiap warna didefinisikan oleh batas bawah (`lower`) dan batas atas (`upper`) dalam ruang warna HSV. Misalnya, untuk warna biru, rentang warna ditentukan dari nilai Hue (H) sekitar 100-140 dan untuk warna merah Sebenarnya, kita hanya memerlukan dua masker untuk warna merah. Namun, dalam ruang warna HSV, nilai hue (H) yang menunjukkan warna merah memiliki rentang dari 0-10 dan 160-180. Karena nilai hue ini dapat melintasi batas 0-180, kita perlu membagi rentang menjadi dua bagian dan mendeteksi warna merah dalam dua rentang tersebut. Oleh karena itu, kita menggunakan dua masker untuk mendeteksi warna merah: satu untuk rentang 0-10 dan satu lagi untuk rentang 160-180. Setelah itu, kedua masker tersebut digabungkan menggunakan operasi np.maximum() untuk mendapatkan masker akhir yang menunjukkan wilayah yang berwarna merah.
 
 3. Deteksi warna dilakukan untuk setiap warna (biru, hijau, merah) menggunakan fungsi `cv2.inRange`. Fungsi ini menghasilkan citra biner di mana piksel yang berada dalam rentang warna akan menjadi putih, sedangkan yang lainnya hitam. Untuk warna merah, karena rentang warnanya melintasi nilai H yang meliputi 0 dan 180, dua rentang (merah ke oranye dan merah muda ke magenta) diambil terpisah dan digabungkan dengan menggunakan operasi `np.maximum`.
 
@@ -393,3 +406,46 @@ plt.show()
 5. Setiap subplot diberi judul yang sesuai.
 
 6. Terakhir, menggunakan `plt.tight_layout()` untuk memastikan layout subplot terlihat rapi, dan `plt.show()` untuk menampilkan gambar-gambar tersebut.
+7. Untuk alasan mengapa menggunakan angka tersebut sebagai ambang batas karena angkka tersebut berada diantara batas minimum dan maksimum setiap warna dan menghasilkan tampilan kategori warna yang paling mendekati sempurna
+
+# Teori Pendukung
+## Library yang digunakan
+
+1.	OpenCV (Open Source Computer Vision Library)
+
+ Adalah sebuah library open source  yang memiliki fokus pada pengolahan gambar dan pengenalan pola. Library ini berfungsi unruk membaca serta memanipulasi gambar atau video dan melakukan operasi pemrosesan citra seperti deteksi objek, segmentasi dll. Library ini memiliki keunggulan dalam menyediakan fungsi untuk berbagai macam tugas pengolahan citra dan visi komputer.
+
+2.	Matplotlib
+
+Adalah suatu library dalam python untuk membuat visualisasi data seperti grafik, plot, diagram  dll serta berfungsi untuk membuat plot 2D dan 3D dari data numerik dalam array. Keunggulan library ini adalah adanya dukungan yan g luas untuk berbagai jenis plot serta fleksibel dan mudah digunakan.
+
+3. NumPy
+
+NumPy adalah library untuk mengolah dan memanipulasi data dalam bentuk array. Melalui berbagai fungsi matematika yang terintegrasi sampai kemudahan dalam pembuatan dan manipulasi array, NumPy memastikan kita dapat fokus pada penggalian informasi daripada terhambat oleh keterbatasan teknis.
+
+## Representasi Pengolahan Citra dalam Kehidupan Nyata
+
+1.	Pengolahan Citra Dalam Bidang Medis
+
+Penerapan pengolahan citra digital dalam dunia medis membantu analisis dan diagnosa medis dengan cara mengidentifikasi area patologis dalam tubuh menggunakan sinar-X, CT scan, dan lainnya seperti deteksi tumor pada pasien dengan melakukan segmentasi untuk mengidentifikasi bagian mana yang organ dan bagian mana yang merupakan tumor.
+
+2.	Pengolahan Citra Satelit
+
+Pengolahan Citra Digital juga digunakan dalam Pengolahan citra satelit dimana pengolahan citra satelit adalah aplikasi pengolahan citra yang digunakan untuk menganalisis gambar dari satelit atau pesawat terbang yang digunakan untuk memantau permukaan bumi dari ruang angkasa. Salah satu contohnya adalah Pemantauan Perubahan Lahan, yang memungkinkan untuk memantau perubahan lahan seperti urbanisasi, perubahan penggunaan lahan, atau dampak lingkungan dari pembangunan infrastruktur. Ini membantu pemantauan lingkungan dan perencanaan kota.
+
+3.	Pengolahan Citra Keamanan
+
+Pengaplikasin pengolahan citra digital ini digunakan untuk menganalisis gambar dari sistem keamanan seperti kamera CCTV, sensor pengawasan, dan lainnya. Contohnya adalah Deteksi Wajah, yang dapat diidentifikasi melalui pengolahan citra. Ini memungkinkan pemantauan dan keamanan di tempat umum seperti bandara, stasiun kereta, atau pusat perbelanjaan, sehingga jika terdapar seorang DPO yang melarikan diri dan tertangkap kamera pengawas maka akan langsung terdeteksi karena adanya pengolahan citra dari potret dirinya sebelum ia melarikan diri.
+
+Pada program project ini memiliki beberapa langkah dalam memproses citra. Pertama, citra dimuat dan dikonversi ke dalam format RGB untuk mempermudah analisis. Selanjutnya, dilakukan penyesuaian terhadap kontras dan kecerahan citra agar gambar lebih terang dan detailnya lebih terlihat. Setelah itu, dilakukan analisis histogram untuk memahami sebaran warna dalam gambar. Informasi ini penting dalam menentukan langkah-langkah selanjutnya. Kemudian, dilakukan deteksi warna untuk menemukan area dengan warna tertentu, seperti merah, hijau, dan biru. Ambang batas juga ditentukan berdasarkan histogram untuk setiap warna yang dideteksi. Ini membantu dalam memisahkan elemen berwarna dalam citra. Citra hasil proses dan histogramnya ditampilkan dalam subplot secara terpisah, memudahkan untuk melihat efek dari setiap langkah proses pengolahan citra. Selain itu, program ini memanfaatkan teknik-teknik dasar dalam pengolahan citra, seperti konversi warna, analisis histogram, dan deteksi warna, yang merupakan langkah awal dalam banyak aplikasi yang lebih kompleks dalam pengolahan citra, seperti pengenalan objek, deteksi wajah, dan lainnya.
+
+# Jurnal Terkait
+
+PENGOLAHAN CITRA DIGITAL DAN HISTOGRAM DENGAN PHYTON DAN TEXT EDITOR PHYCHARM
+
+
+https://ojs.uniska-bjm.ac.id/index.php/JIT/article/view/3294
+
+Deteksi Warna Manggis Menggunakan Pengolahan Citra dengan Opencv Python
+
+https://doi.org/10.24036/voteteknika.v9i4.114251
